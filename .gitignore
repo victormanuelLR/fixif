@@ -1,0 +1,42 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+*.sqlite3
+*.log
+*.pot
+*.mo
+*.swp
+*.swo
+*.bak
+
+# Media and static files
+/templates/
+
+# Django secret key
+*.env
+.env.*
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Node modules (if using frontend tools)
+node_modules/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Migrations
+*/migrations/
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.db
+
+# Test and cache files
+*.pytest_cache/
+.cache/
