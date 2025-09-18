@@ -10,6 +10,8 @@ db.sqlite3
 *.swo
 *.bak
 
+*.html
+
 # Media and static files
 /templates/
 
