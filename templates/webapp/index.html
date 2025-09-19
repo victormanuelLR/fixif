@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Sistema de Manutenção Integrado{% endblock %}
+{% block description %}
+Sistema web integrado ao SUAP para registro, acompanhamento e gestão de chamados de manutenção na infraestrutura do
+IFPI.
+{% endblock %}
+{% block extra_styles %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-modern">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <i class="bi bi-tools me-2 fs-4"></i>
+            FixIF
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto ms-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="#sobre">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#funcionalidades">Funcionalidades</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#estatisticas">Estatísticas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contato">Contato</a>
+                </li>
+            </ul>
+
+            <div class="user-menu hidden" id="userMenu">
+                <div class="dropdown">
+                    <div class="user-avatar-modern" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                        <li>
+                            <h6 class="dropdown-header">João Silva</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Meu Perfil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-list-task me-2"></i>Meus Chamados</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i
+                                    class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="login-buttons d-flex gap-2" id="loginButtons">
+                <a href="{% url 'login' %}" class="btn btn-outline-modern">Entrar</a>
+                <a href="{% url 'login' %}" class="btn btn-primary-modern" onclick="showLogin()">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>
+                    Acessar Sistema
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-modern">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-7 hero-content">
+                <h1 class="hero-title">FixIF</h1>
+                <p class="hero-subtitle">
+                    Reporte Problemas na Infraestrutura no campus IFPI São Raimundo Nonato.
+                </p>
+                <p class="hero-description">
+                    Reporte problemas de infraestrutura de forma inteligente.
+                    Conecte-se à equipe de manutenção com agilidade e acompanhe
+                    cada etapa do processo em tempo real através de nossa plataforma.
+                </p>
+                <div class="hero-cta-buttons">
+                    <a href="{% url 'login' %}" class="btn btn-hero-primary" onclick="showLogin()">
+                        <i class="bi bi-rocket-takeoff me-2"></i>
+                        Acessar sistema integrado
+                    </a>
+                    <button class="btn btn-hero-secondary" onclick="scrollToSection('sobre')">
+                        <i class="bi bi-play-circle me-2"></i>
+                        Ver Como Funciona
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<section id="sobre" class="section-modern">
+    <div class="container">
+        <h2 class="section-title">O que é o FixIF?</h2>
+        <p class="section-subtitle">
+            O FixIF é um sistema web integrado ao SUAP, que permite que alunos, docentes e coordenadores registrem
+            problemas de infraestrutura do campus (ex.: carteiras quebradas, ar-condicionados com defeito).
+            Esses chamados são visualizados pelos profissionais de manutenção, que realizam a vistoria, classificação e
+            resolução do problema.
+        </p>
+
+    </div>
+</section>
+
+<section id="estatisticas" class="section-modern bg-light">
+    <div class="container">
+        <h2 class="section-title">Estatísticas</h2>
+        <p class="section-subtitle">
+            Números que demonstram a eficiência e o impacto positivo do FixIF na comunidade do IFPI.
+        </p>
+
+        <div class="stats-modern">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">1,247</span>
+                        <span class="stat-label">Chamados Resolvidos</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Taxa de resolução de problemas</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">24h</span>
+                        <span class="stat-label">Tempo Médio de Resposta</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Campus Atendidos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-modern"
+    style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);">
+    <div class="container text-center text-white">
+        <h2 class="display-4 fw-bold mb-4">Comece a Reportar problemas de manutenção no seu campus já!</h2>
+        <p class="fs-5 mb-5 opacity-75">
+            Junte-se aos usuários que já utilizam o FixIF para melhorar a infraestrutura do IFPI.
+        </p>
+        <a class="btn btn-light btn-lg px-5 py-3" href="{% url 'login' %}">
+            <i class="bi bi-rocket-takeoff me-2"></i>
+            Acessar Sistema
+        </a>
+    </div>
+</section>
+
+<footer id="contato" class="footer-modern">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="footer-brand">FixIF</div>
+                <p class=" mb-4">
+                    Revolucionando a gestão de manutenção no Instituto Federal do Piauí
+                    com tecnologia, transparência e eficiência.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="footer-link fs-5"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="footer-link fs-5"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="footer-link fs-5"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="footer-link fs-5"><i class="bi bi-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-white mb-3">Mais de Fixif</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="footer-link">Traga Fixif para seu campus</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-white mb-3">Suporte</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="footer-link">Central de Ajuda</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">Documentação</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">Tutoriais</a></li>
+                    <li class="mb-2"><a href="#" class="footer-link">Contato</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <hr class="my-4 opacity-25">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class=" mb-0">
+                    © Instituto Federal do Piauí. Todos os direitos reservados.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="footer-link me-3">Política de Privacidade</a>
+                <a href="#" class="footer-link">Termos de Uso</a>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+{% block extra_scripts %}
+
+<script src="{% static 'js/index.js' %}"></script>
+<script>
+
+</script>
+{% endblock %}
+</body>
+
+</html>

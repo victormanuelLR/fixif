@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Faça Login{% endblock %}
+{% block description %} Acesse o sistema Fixif utilizando suas credenciais do SUAP ou gov.br. Gerencie e acompanhe
+solicitações de manutenção com facilidade e segurança.{% endblock %}
+{% block extra_styles %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+<style>
+    .login-brand-side::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("{% static 'img/login-landing.jpg' %}") no-repeat center center/cover;
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="col-lg-7 login-brand-side">
+        <div class="brand-content">
+            <div class="brand-logo">
+                <div>
+                    <h1 class="brand-title">Fixif: Criado por alunos para toda a comunidade acadêmica.</h1>
+                </div>
+            </div>
+
+            <p class="brand-description">
+                Sistema integrado de manutenção desenvolvido para otimizar
+                a gestão de infraestrutura do IFPI, conectando toda a
+                comunidade acadêmica com transparência e eficiência.
+            </p>
+
+
+        </div>
+    </div>
+
+    <div class="col-lg-5 login-form-side">
+        <a href="{% url 'webapp:index' %}" class="back-to-home">
+            <i class="bi bi-arrow-left"></i>
+            Voltar ao Início
+        </a>
+
+        <div class="login-form-container">
+            <div class="login-header">
+                <h2 class="login-title">Faça Login</h2>
+                <p class="login-subtitle">Acesse utilizando o SUAP</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">Usuário:</label>
+                    <input type="text" id="username" name="username" class="form-control-modern"
+                        placeholder="Digite seu usuário do SUAP" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Senha:</label>
+                    <div class="password-input-container">
+                        <input type="password" id="password" name="password" class="form-control-modern"
+                            placeholder="Digite sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="bi bi-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login-primary" id="loginBtn">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                    Acessar
+                </button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#">Esqueceu ou deseja alterar sua senha?</a>
+            </div>
+
+            <div class="divider">
+                <span>ou</span>
+            </div>
+
+            <a href="#" class="btn-login-secondary">
+                Entrar com gov.br
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

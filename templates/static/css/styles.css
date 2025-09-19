@@ -1,0 +1,28 @@
+:root {
+            --primary: #12be5f;
+            --primary-light: #48ec9a;
+            --primary-dark: #9f1239;
+            --background: #ffffff;
+            --foreground: #475569;
+            --card: #fdf2f8;
+            --muted: #f8fafc;
+            --border: #e2e8f0;
+            --accent: #ec4899;
+            --radius: 2rem;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--foreground);
+            background: var(--background);
+            overflow-x: hidden;
+        }

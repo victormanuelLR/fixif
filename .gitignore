@@ -10,10 +10,7 @@ db.sqlite3
 *.swo
 *.bak
 
-*.html
-
-# Media and static files
-/templates/
+templates/core/
 
 # Django secret key
 *.env
@@ -27,11 +24,6 @@ db.sqlite3
 
 # Node modules (if using frontend tools)
 node_modules/
-
-# Coverage reports
-htmlcov/
-.coverage
-.coverage.*
 
 # Migrations
 */migrations/
