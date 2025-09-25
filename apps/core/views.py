@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, resolve_url
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.generic.edit import FormView
+from apps.core.scrap import suap_login
 import requests
 
 
@@ -22,25 +23,13 @@ class LoginView(FormView):
 
     def pre_login(self, request):
 
-        try:
-            response = requests.post(
-            url='https://suap.ifpi.edu.br',
-            data={
-                'username': request.POST.get('username'),
-                'password': request.POST.get('password')
-            }
-            )
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-            if response.status_code == 200:
-                print(response.text)
-                pass
-            else:
-                print(response.text)
-                pass
+        if username and password:
+            suap_data = suap_login(username, password)
+            print(suap_data)
 
-        except requests.RequestException as e:
-            print(f"errs: {e}")
-            pass
 
         return None
 

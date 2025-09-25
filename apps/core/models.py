@@ -11,9 +11,10 @@ class BaseModel(models.Model):
 
 
 class UserProfile(BaseModel):
+    enrollment_number = models.CharField(max_length=50, unique=True, verbose_name="Enrollment Number")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar_url = models.URLField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
