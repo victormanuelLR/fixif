@@ -51,7 +51,23 @@ solicitações de manutenção com facilidade e segurança.{% endblock %}
                 <p class="login-subtitle">Acesse utilizando o SUAP</p>
             </div>
 
-            <form id="loginForm">
+            {% if form.errors %}
+            <div class="login-errors">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error|escape }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form id="loginForm"  method="post"  action="{% url 'login' %}"  >
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="username" class="form-label">Usuário:</label>
                     <input type="text" id="username" name="username" class="form-control-modern"
@@ -89,4 +105,35 @@ solicitações de manutenção com facilidade e segurança.{% endblock %}
         </div>
     </div>
 </div>
+
+{% if form.errors %}
+<div id="errorModal" class="error-modal">
+    <div class="error-modal-content">
+        <div class="error-modal-header">
+            <div class="error-icon">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <h3 class="error-title">Erro no Login</h3>
+        </div>
+        <ul class="error-list">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error|escape }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error|escape }}</li>
+            {% endfor %}
+        </ul>
+        <button class="error-close-btn" onclick="closeErrorModal()">
+            Entendi
+        </button>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
