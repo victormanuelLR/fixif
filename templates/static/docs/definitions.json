@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Introdução",
+    "path": "INTRO.md",
+    "icon": "bi-house-door"
+  },
+  { 
+    "name": "Instalação",
+    "path": "INSTALL.md",
+    "icon": "bi-download" 
+}
+]
