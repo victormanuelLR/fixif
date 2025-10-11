@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -13,6 +14,7 @@ class BaseModel(models.Model):
 
 class Campus(BaseModel):
     campus_name = models.CharField(max_length=160, verbose_name="Nome do Campus")
+
 
 class UserProfile(BaseModel):
     campus = models.ForeignKey(
@@ -41,11 +43,13 @@ class Report(BaseModel):
         MEDIUM = 'MEDIUM', 'Média'
         HIGH = 'HIGH', 'Alta'
 
+
     class Status(models.TextChoices):
         OPEN = 'OPEN', 'Aberto'
         IN_PROGRESS = 'IN_PROGRESS', 'Em andamento'
         RESOLVED = 'RESOLVED', 'Resolvido'
         CLOSED = 'CLOSED', 'Fechado'
+
 
     class ProblemType(models.TextChoices):
         NOT_INFORMED = 'NULL', 'Não Informado'
@@ -71,6 +75,7 @@ class Report(BaseModel):
         verbose_name='Usuário que reportou'
     )
 
+    is_anonim = models.BooleanField(default=False, verbose_name='Reportar Anonimamente')
     description = models.TextField(verbose_name='Descrição do Problema')
 
     priority = models.CharField(
@@ -132,6 +137,29 @@ class Report(BaseModel):
         return f"[{self.get_report_status_display()}] {self.location} - {self.description[:30]}"
 
 
+class ReportLike(BaseModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="report_likes",
+        verbose_name="Usuário"
+    )
+    report = models.ForeignKey(
+        Report,
+        on_delete=models.CASCADE,
+        related_name="likes",
+        verbose_name="Relatório"
+    )
+
+    class Meta:
+        unique_together = ('user', 'report')
+        verbose_name = "Curtida em Relatório"
+        verbose_name_plural = "Curtidas em Relatórios"
+
+    def __str__(self):
+        return f"{self.user.username} liked report #{self.report.id}"
+
+
 class ReportComment(BaseModel):
     report = models.ForeignKey(
         "Report",
@@ -141,14 +169,7 @@ class ReportComment(BaseModel):
     )
 
     user = models.ForeignKey(
-        UserProfile,
-        on_delete=models.CASCADE,
-        related_name="report_comments",
-        verbose_name="Usuário"
-    )
-
-    user = models.ForeignKey(
-        UserProfile,
+        User,
         on_delete=models.CASCADE,
         related_name="report_comments",
         verbose_name="Usuário"
@@ -163,3 +184,34 @@ class ReportComment(BaseModel):
         blank=True,
         verbose_name="Anexo (opcional)"
     )
+
+    class Meta:
+        verbose_name = "Comentário em Relatório"
+        verbose_name_plural = "Comentários em Relatórios"
+
+    def __str__(self):
+        return f"Comment by {self.user.username} on report #{self.report.id}"
+
+
+class CommentLike(BaseModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="comment_likes",
+        verbose_name="Usuário"
+    )
+    comment = models.ForeignKey(
+        ReportComment,
+        on_delete=models.CASCADE,
+        related_name="likes",
+        verbose_name="Comentário"
+    )
+
+    class Meta:
+        unique_together = ('user', 'comment')
+        verbose_name = "Curtida em Comentário"
+        verbose_name_plural = "Curtidas em Comentários"
+
+    def __str__(self):
+        return f"{self.user.username} liked comment #{self.comment.id}"
+

@@ -9,39 +9,38 @@ Feed de atualizações e notícias sobre o sistema FixIF e manutenção.
 {% endblock %}
 
 {% block content %}
-
     <div class="feed-container">
         <div class="feed-header">
             <h1 class="feed-title">Olá, {{ user_profile.suap_nickname }}</h1>
             <p class="feed-subtitle">Acompanhe todos os chamados de manutenção do campus {{ user_profile.campus }}</p>
-
+            
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon open">
                         <i class="bi bi-exclamation-triangle"></i>
                     </div>
-                    <div class="stat-number">12</div>
+                    <div class="stat-number">{{ stats.open }}</div>
                     <div class="stat-label">Abertos</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon progress">
                         <i class="bi bi-clock"></i>
                     </div>
-                    <div class="stat-number">8</div>
+                    <div class="stat-number">{{ stats.in_progress }}</div>
                     <div class="stat-label">Em Andamento</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon resolved">
                         <i class="bi bi-check-circle"></i>
                     </div>
-                    <div class="stat-number">45</div>
+                    <div class="stat-number">{{ stats.resolved }}</div>
                     <div class="stat-label">Resolvidos</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon total">
                         <i class="bi bi-list-task"></i>
                     </div>
-                    <div class="stat-number">65</div>
+                    <div class="stat-number">{{ stats.total }}</div>
                     <div class="stat-label">Total</div>
                 </div>
             </div>
@@ -75,14 +74,13 @@ Feed de atualizações e notícias sobre o sistema FixIF e manutenção.
         </div>
 
         <div class="feed-grid" id="feedGrid">
-
             {% for report in reports %}
-            <div class="ticket-card status-{{ report.report_status|lower }}">
+            <div class="ticket-card status-{{ report.report_status|lower }}" data-report-id="{{ report.id }}">
                 <div class="ticket-header">
-                    <span class="ticket-id">#2024001</span>
+                    <span class="ticket-id">#{{ report.id }}</span>
                     <span class="ticket-status status-{{ report.report_status|lower }}">{{ report.get_report_status_display }}</span>
                 </div>
-                <h3 class="ticket-title">{{ report.description }}</h3>
+                <h3 class="ticket-title">{{ report.description|truncatewords:10 }}</h3>
                 <p class="ticket-description">
                     {{ report.description }}
                 </p>
@@ -97,35 +95,103 @@ Feed de atualizações e notícias sobre o sistema FixIF e manutenção.
                     </div>
                     <div class="meta-item">
                         <i class="bi bi-calendar"></i>
-                        <span>{{ report.created_at|date:"d/m/Y H:i" }}</span>
+                        <span>{{ report.created_at|timesince }} atrás</span>
                     </div>
                 </div>
 
+                <div class="ticket-interactions">
+                    <button class="interaction-btn like-btn {% if report.user_has_liked %}liked{% endif %}" 
+                            data-report-id="{{ report.id }}">
+                        <i class="bi bi-heart{% if report.user_has_liked %}-fill{% endif %}"></i>
+                        <span class="like-count">{{ report.like_count }}</span>
+                    </button>
+                    <button class="interaction-btn comment-toggle-btn" data-report-id="{{ report.id }}">
+                        <i class="bi bi-chat"></i>
+                        <span>{{ report.comment_count }}</span>
+                    </button>
+                </div>
+
+                <div class="comment-form" id="comment-form-{{ report.id }}">
+                    <div class="comment-input-wrapper">
+                        <textarea class="comment-input" 
+                                  placeholder="Escreva um comentário..." 
+                                  data-report-id="{{ report.id }}"></textarea>
+                        <button class="comment-submit-btn" data-report-id="{{ report.id }}">
+                            <i class="bi bi-send"></i>
+                            Enviar
+                        </button>
+                    </div>
+                </div>
+
+                {% if report.preview_comments %}
+                <div class="comments-preview" id="comments-preview-{{ report.id }}">
+                    {% for comment in report.preview_comments %}
+                    <div class="comment-item" data-comment-id="{{ comment.id }}">
+                        <div class="comment-header">
+                            <div class="comment-author">
+                                <div class="comment-avatar">
+                                    {{ comment.user.suap_nickname|first|upper }}
+                                </div>
+                                <span class="comment-author-name">{{ comment.user.suap_nickname }}</span>
+                                <span class="comment-time">{{ comment.created_at|timesince }} atrás</span>
+                            </div>
+                            {% if comment.user == request.user %}
+                            <button class="comment-delete-btn" data-comment-id="{{ comment.id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <p class="comment-content">{{ comment.content }}</p>
+                        <div class="comment-actions">
+                            <button class="comment-like-btn {% if comment.user_has_liked %}liked{% endif %}" 
+                                    data-comment-id="{{ comment.id }}">
+                                <i class="bi bi-heart{% if comment.user_has_liked %}-fill{% endif %}"></i>
+                                <span class="comment-like-count">{{ comment.like_count }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if report.comment_count > 3 %}
+                    <a href="#" class="view-all-comments" data-report-id="{{ report.id }}">
+                        Ver todos os {{ report.comment_count }} comentários
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="comments-preview" id="comments-preview-{{ report.id }}" style="display: none;">
+                </div>
+                {% endif %}
 
                 <div class="ticket-footer">
                     <div class="ticket-author">
+                        <div class="author-avatar">
+                            {{ report.report_user.suap_nickname|first|upper }}
+                        </div>
                         <div class="author-info">
-                            <h6>{{ report.report_user }}</h6>
-                            <p>sla</p>
+                            <h6>{{ report.report_user.suap_nickname }}</h6>
+                            <p>{{ report.report_user.suap_course|default:"Usuário" }}</p>
                         </div>
                     </div>
                     <div class="ticket-actions">
-                        <button class="action-btn" title="Ver detalhes">
+                        <button class="view-details-btn" data-report-id="{{ report.id }}">
                             <i class="bi bi-eye"></i>
-                        </button>
-                        <button class="action-btn" title="Comentar">
-                            <i class="bi bi-chat"></i>
+                            Ver Detalhes
                         </button>
                     </div>
                 </div>
             </div>
-
-
-                {%endfor%}
+            {% endfor %}
+        </div>
 
         <div class="loading" id="loading" style="display: none;">
             <div class="spinner"></div>
         </div>
     </div>
 
-    {% endblock %}
+   {% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/feed.js' %}"></script>
+{% endblock %}
