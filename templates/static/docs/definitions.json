@@ -8,5 +8,10 @@
     "name": "Instalação",
     "path": "INSTALL.md",
     "icon": "bi-download" 
-}
+  },
+  {
+    "name": "Modelos",
+    "path": "MODELS.md",
+    "icon": "bi-person"
+  }
 ]
