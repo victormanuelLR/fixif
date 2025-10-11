@@ -1,3 +1,6 @@
 from django.contrib import admin
+from apps.core.models import Report, UserProfile, Campus
 
-# Register your models here.
+admin.site.register(Campus)
+admin.site.register(Report)
+admin.site.register(UserProfile)

@@ -1,0 +1,131 @@
+{% extends "webapp/base.html" %}
+{% load static %}
+{% block title %}Feed{% endblock %}
+{% block description %}
+Feed de atualizações e notícias sobre o sistema FixIF e manutenção.
+{% endblock %}
+{% block extra_styles %}
+<link href="{% static 'css/feed.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="feed-container">
+        <div class="feed-header">
+            <h1 class="feed-title">Olá, {{ user_profile.suap_nickname }}</h1>
+            <p class="feed-subtitle">Acompanhe todos os chamados de manutenção do campus {{ user_profile.campus }}</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon open">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Abertos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon progress">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Em Andamento</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon resolved">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Resolvidos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="bi bi-list-task"></i>
+                    </div>
+                    <div class="stat-number">65</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters-section">
+            <div class="search-box">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Buscar chamados...">
+            </div>
+            <a href="#" class="filter-btn active">
+                <i class="bi bi-list"></i>
+                Todos
+            </a>
+            <a href="#" class="filter-btn">
+                <i class="bi bi-exclamation-triangle"></i>
+                Abertos
+            </a>
+            <a href="#" class="filter-btn">
+                <i class="bi bi-clock"></i>
+                Em Andamento
+            </a>
+            <a href="#" class="filter-btn">
+                <i class="bi bi-check-circle"></i>
+                Resolvidos
+            </a>
+            <a href="#" class="filter-btn new-ticket-btn">
+                <i class="bi bi-plus-circle"></i>
+                Novo Chamado
+            </a>
+        </div>
+
+        <div class="feed-grid" id="feedGrid">
+
+            {% for report in reports %}
+            <div class="ticket-card status-{{ report.report_status|lower }}">
+                <div class="ticket-header">
+                    <span class="ticket-id">#2024001</span>
+                    <span class="ticket-status status-{{ report.report_status|lower }}">{{ report.get_report_status_display }}</span>
+                </div>
+                <h3 class="ticket-title">{{ report.description }}</h3>
+                <p class="ticket-description">
+                    {{ report.description }}
+                </p>
+                <div class="ticket-meta">
+                    <div class="meta-item">
+                        <i class="bi bi-geo-alt"></i>
+                        <span>{{ report.location }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="bi bi-tag"></i>
+                        <span>{{ report.get_report_type_display }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="bi bi-calendar"></i>
+                        <span>{{ report.created_at|date:"d/m/Y H:i" }}</span>
+                    </div>
+                </div>
+
+
+                <div class="ticket-footer">
+                    <div class="ticket-author">
+                        <div class="author-info">
+                            <h6>{{ report.report_user }}</h6>
+                            <p>sla</p>
+                        </div>
+                    </div>
+                    <div class="ticket-actions">
+                        <button class="action-btn" title="Ver detalhes">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="action-btn" title="Comentar">
+                            <i class="bi bi-chat"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+                {%endfor%}
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    {% endblock %}

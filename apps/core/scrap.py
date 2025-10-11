@@ -13,15 +13,6 @@ def suap_login(username,password):
 
     user_data = {
         'session': requests.Session(),
-        'schedule': '',
-        'task': '',
-        'configs': {
-            'active': False,
-            'notifications': {
-                'notas': True,
-                'faltas': True
-            }
-        },
         'details': {
             'picture':'',
             'username': '',
@@ -32,10 +23,6 @@ def suap_login(username,password):
             'matriz': '',
             'situation': '',
             'lastLogin':'',
-        },
-        'cycle': {
-            'notas': [],
-            'faltas': []
         }
     }
 
@@ -70,7 +57,6 @@ def suap_login(username,password):
     user_data['details']['since'] = soup.select_one('#content > div.box > div > dl > div:nth-child(3) > dd').get_text().strip()
     user_data['details']['situation'] = soup.select_one('#content > div.box > div > dl > div:nth-child(12) > dd > span').get_text()
     user_data['details']['matriz'] = soup.select_one('#content > div.box > div > dl > div:nth-child(10) > dd').get_text().strip()
-    user_data['configs']['active'] = True
 
     photo = soup.select_one('#content > div.box > div > div > img')
     if photo:
@@ -80,5 +66,5 @@ def suap_login(username,password):
         user_data['details']['picture'] = f'https://suap.ifpi.edu.br/media/alunos/{nfile}'
     else:
         user_data['details']['picture'] = False
-    
+    user_data['success'] = True    
     return user_data

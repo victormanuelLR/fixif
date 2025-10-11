@@ -1,0 +1,295 @@
+{% extends "webapp/base.html" %}
+{% load static %}
+{% block title %}Seu Perfil{% endblock %}
+{% block description %}
+Página de perfil do usuário onde é possível ver e editar informações pessoais, atividades recentes e configurações da conta.
+{% endblock %}
+{% block extra_styles %}
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="{{ user_profile.suap_avatar_url }}" class="profile-avatar-large" style="overflow: hidden; position: relative;">
+            
+            </img>
+            <div class="profile-info">
+                <h1>{{ user_profile.suap_full_name }}</h1>
+                <p>{{ user_profile.suap_course }}</p>
+                <div class="profile-badges">
+                    <span class="badge badge-primary">IFPI - Teresina Central</span>
+                    <span class="badge badge-secondary">Usuário Ativo</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon open">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Chamados Abertos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon progress">
+                    <i class="bi bi-clock"></i>
+                </div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Em Andamento</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon resolved">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="stat-number">45</div>
+                <div class="stat-label">Resolvidos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="bi bi-star"></i>
+                </div>
+                <div class="stat-number">4.8</div>
+                <div class="stat-label">Avaliação Média</div>
+            </div>
+        </div>
+
+        <div class="profile-card" id="personal">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="bi bi-person-circle"></i>
+                    Informações Pessoais
+                </h2>
+                <button class="card-action" id="editBtn">Editar</button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Nome Completo</label>
+                        <input type="text" class="form-control-custom" value="João Silva Santos" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control-custom" value="joao.silva@ifpi.edu.br" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Matrícula</label>
+                        <input type="text" class="form-control-custom" value="2024001234" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Curso</label>
+                        <input type="text" class="form-control-custom" value="Sistemas para Internet" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Campus</label>
+                        <input type="text" class="form-control-custom" value="IFPI - Teresina Central" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Telefone</label>
+                        <input type="tel" class="form-control-custom" value="(86) 99999-9999" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card" id="activity">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="bi bi-clock-history"></i>
+                    Atividade Recente
+                </h2>
+                <a href="feed.html" class="card-action">Ver Todas</a>
+            </div>
+
+            <ul class="activity-list">
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="bi bi-plus-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Novo chamado criado</div>
+                        <div class="activity-meta">Ar condicionado com vazamento - Há 2 horas</div>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Comentário adicionado</div>
+                        <div class="activity-meta">Chamado #2024001 - Há 1 dia</div>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Chamado resolvido</div>
+                        <div class="activity-meta">Projetor sem imagem - Há 3 dias</div>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon">
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Avaliação enviada</div>
+                        <div class="activity-meta">5 estrelas para o atendimento - Há 1 semana</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="profile-card" id="settings">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="bi bi-gear"></i>
+                    Configurações
+                </h2>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Idioma</label>
+                        <select class="form-control-custom">
+                            <option>Português (Brasil)</option>
+                            <option>English</option>
+                            <option>Español</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Fuso Horário</label>
+                        <select class="form-control-custom">
+                            <option>America/Fortaleza (GMT-3)</option>
+                            <option>America/Sao_Paulo (GMT-3)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn-primary-custom me-2">
+                    <i class="bi bi-check"></i>
+                    Salvar Alterações
+                </button>
+                <button class="btn-secondary-custom">
+                    <i class="bi bi-x"></i>
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+        <div class="profile-card" id="notifications">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="bi bi-bell"></i>
+                    Notificações
+                </h2>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h6>Notificações por Email</h6>
+                    <p>Receber atualizações sobre seus chamados</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h6>Notificações Push</h6>
+                    <p>Receber notificações no navegador</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h6>Resumo Semanal</h6>
+                    <p>Receber resumo das atividades da semana</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" class="toggle-input" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="profile-card" id="security">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="bi bi-shield-check"></i>
+                    Segurança
+                </h2>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Senha Atual</label>
+                        <input type="password" class="form-control-custom" placeholder="Digite sua senha atual">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Nova Senha</label>
+                        <input type="password" class="form-control-custom" placeholder="Digite a nova senha">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Confirmar Nova Senha</label>
+                        <input type="password" class="form-control-custom" placeholder="Confirme a nova senha">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn-primary-custom me-2">
+                    <i class="bi bi-key"></i>
+                    Alterar Senha
+                </button>
+                <button class="btn-secondary-custom">
+                    <i class="bi bi-x"></i>
+                    Cancelar
+                </button>
+            </div>
+
+            <hr class="my-4" style="border-color: var(--border);">
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <h6>Autenticação de Dois Fatores</h6>
+                    <p>Adicione uma camada extra de segurança à sua conta</p>
+                </div>
+                <button class="btn-secondary-custom">
+                    <i class="bi bi-shield-plus"></i>
+                    Configurar
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
