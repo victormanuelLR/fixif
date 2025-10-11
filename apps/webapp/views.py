@@ -226,7 +226,7 @@ def delete_comment(request, comment_id):
 
 
 class DocsView(TemplateView):
-    template_name = "docs/template.html"
+    template_name = "docs-template.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
