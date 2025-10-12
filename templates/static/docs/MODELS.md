@@ -1,9 +1,9 @@
-## Estrutura de Models
+# Estrutura de Models
 
-### Campus
+## Campus
 
 - `campus_name` - Nome do campus (`CharField`)
-#### Relações
+### Relações
 ```mermaid
 classDiagram
     class Campus {
@@ -18,7 +18,7 @@ classDiagram
     Report --> Campus : ManyToOne (campus)
 ```
 
-### UserProfile
+## UserProfile
 
 - `user` - Referência ao `User` do Django (`OneToOneField`)
 - `campus` - Referência ao campus do IFPI (`ForeignKey` para `Campus`)
@@ -28,7 +28,7 @@ classDiagram
 - `suap_full_name` - Nome completo do usuário (`CharField`)
 - `suap_course` - Curso ao qual o usuário está vinculado (`CharField`)
 - `bio` - Descrição livre do perfil (`TextField`)
-#### Relações
+### Relações
 
 ```mermaid
 classDiagram
@@ -52,7 +52,7 @@ classDiagram
 
 
 
-### Report
+## Report
 
 - `campus` – Referência ao campus do IFPI (`ForeignKey` para `Campus`).
 - `report_user` – Usuário que criou o relatório (`ForeignKey` para `UserProfile`).
@@ -66,11 +66,11 @@ classDiagram
 - `attachments` – Arquivo opcional anexado ao relatório (`FileField`).
 - `resolved_at` – Data e hora de resolução do chamado (`DateTimeField`, opcional).
 
-#### Choices
+### Choices
 - `Priority` - Define as prioridades possíveis do relatório (baixa, média, alta).
 - `ProblemType` - Define os tipos de problema (hardware, software, rede, etc).
 - `Status` - Define os estados do relatório (aberto, em andamento, resolvido ou fechado).
-#### Relações
+### Relações
 
 ```mermaid
 classDiagram
@@ -105,11 +105,11 @@ classDiagram
 
 
 
-### ReportLike
+## ReportLike
 
 - `user` - Usuário que curtiu o relatório (`ForeignKey` para `User`)
 - `report` - Relatório que recebeu a curtida (`ForeignKey` para `Report`)
-#### Relações
+### Relações
 ```mermaid
 classDiagram
     class ReportLike {
@@ -122,14 +122,14 @@ classDiagram
 	ReportLike --> User : ManyToOne (user)
     ReportLike --> Report : ManyToOne (report)
 ```
-### ReportComment
+## ReportComment
 
 - `report` - Relatório comentado (`ForeignKey` para `Report`)
 - `user` - Usuário que fez o comentário (`ForeignKey` para `User`)
 - `content` - Texto do comentário (`TextField`)
 - `is_anonim` - Indica se o comentário foi feito anonimamente (`BooleanField`)
 - `attachment` - Arquivo opcional anexado ao comentário (`FileField`)
-#### Relações
+### Relações
 
 ```mermaid
 classDiagram
@@ -149,11 +149,11 @@ classDiagram
 ```
 
 
-### CommentLike
+## CommentLike
 
 - `user` - Usuário que curtiu o comentário (`ForeignKey` para `User`)
 - `comment` - Comentário que recebeu a curtida (`ForeignKey` para `ReportComment`)
-#### Relações
+### Relações
 
 ```mermaid
 classDiagram
