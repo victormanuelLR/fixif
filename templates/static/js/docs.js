@@ -3,6 +3,9 @@ let docFiles = [];
 
 let currentIndex = 0;
 
+if (typeof mermaid !== "undefined") {
+  mermaid.initialize({ startOnLoad: false });
+}
 
 const renderDoc = (markdown) => {
   const contentDiv = document.getElementById("content");
@@ -11,6 +14,20 @@ const renderDoc = (markdown) => {
   contentDiv.querySelectorAll("pre code").forEach((block) => {
     hljs.highlightElement(block);
   });
+
+  if (typeof mermaid !== "undefined") {
+  const mermaidBlocks = contentDiv.querySelectorAll("code.language-mermaid, pre code.language-mermaid");
+  mermaidBlocks.forEach((block) => {
+    const parent = block.parentElement;
+    const graphDefinition = block.textContent;
+    const container = document.createElement("div");
+    container.classList.add("mermaid");
+    container.textContent = graphDefinition;
+    parent.replaceWith(container);
+  });
+
+    mermaid.run();
+  }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 };

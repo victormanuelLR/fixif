@@ -13,5 +13,35 @@
     "name": "Modelos",
     "path": "MODELS.md",
     "icon": "bi-person"
+  },
+  {
+    "name": "Integração com SUAP",
+    "path": "INTEGRATION_WITH_SUAP.md",
+    "icon": "bi-box-arrow-in-right"
+  },
+  {
+    "name": "Configuração",
+    "path": "CONFIGURATION.md",
+    "icon": "bi-gear"
+  },
+  {
+    "name": "Uso",
+    "path": "USAGE.md",
+    "icon": "bi-play-circle"
+  },
+  {
+    "name": "Testes",
+    "path": "TESTS.md",
+    "icon": "bi-check2-square"
+  },
+  {
+    "name": "Contribuição",
+    "path": "CONTRIBUTING.md",
+    "icon": "bi-git"
+  },
+  {
+    "name": "Licença",
+    "path": "LICENSE.md",
+    "icon": "bi-file-earmark-text"
   }
 ]
