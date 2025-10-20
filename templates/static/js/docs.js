@@ -65,7 +65,7 @@ const updateNavigation = () => {
   }
 };
 
-const navigateToDoc = async (index) => {
+const navigateToDoc = async (index, callback) => {
   if (index < 0 || index >= docFiles.length) return;
 
   currentIndex = index;
@@ -83,11 +83,26 @@ const navigateToDoc = async (index) => {
   renderDoc(markdown);
 
   updateNavigation();
+  const contentDiv = document.getElementById("content");
+
+  callback?.();
 
   if (window.innerWidth <= 992) {
     document.getElementById("sidebar").classList.remove("show");
   }
 };
+
+attachDocListeners = () => {
+  const contentDiv = document.getElementById("content");
+
+  contentDiv.querySelectorAll(".docs-nav-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const index = parseInt(link.dataset.index);
+      navigateToDoc(index);
+    });
+  });
+}
 
 const renderSidebar = () => {
   const docsList = document.getElementById("docsList");
@@ -110,7 +125,7 @@ const renderSidebar = () => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       const index = parseInt(link.dataset.index);
-      navigateToDoc(index);
+      navigateToDoc(index, attachDocListeners);
     });
   });
 };
@@ -123,6 +138,7 @@ const init = async () => {
   await fetchDocDefinitions();
   renderSidebar();
   await navigateToDoc(0);
+  attachDocListeners();
 };
 
 init();
