@@ -95,7 +95,7 @@ const navigateToDoc = async (index, callback) => {
 attachDocListeners = () => {
   const contentDiv = document.getElementById("content");
 
-  contentDiv.querySelectorAll(".docs-nav-link").forEach((link) => {
+  contentDiv.querySelectorAll(".docs-content-link").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       const index = parseInt(link.dataset.index);
