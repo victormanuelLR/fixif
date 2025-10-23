@@ -23,7 +23,8 @@ def suap_login(username,password):
             'matriz': '',
             'situation': '',
             'lastLogin':'',
-        }
+        },
+        'account_type': None,
     }
 
     response = user_data['session'].get(url_login,headers=headers)
@@ -49,7 +50,12 @@ def suap_login(username,password):
             'error': 'Credenciais Incorretas no SUAP'
         }
 
-    
+    is_student = soup.select_one('[data-tab="dados_academicos"]')
+    if is_student:
+        user_data['account_type'] = 'student'
+    else:
+        return user_data    
+
     user_data['details']['name'] = soup.select_one('#content > div:nth-child(3) > div > dl > div:nth-child(1) > dd').get_text()
     user_data['details']['course'] = soup.select_one('#content > div.box > div > dl > div:nth-child(9) > dd').get_text().strip()
     user_data['details']['username'] = username
