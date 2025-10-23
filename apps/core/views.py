@@ -38,38 +38,41 @@ class LoginView(FormView):
 
         profile = UserProfile.objects.filter(suap_username=username).first()
 
-        
-        campus = details['course'].split('-')[-2].strip()
-        campus_obj, created = Campus.objects.get_or_create(campus_name=campus)
-        if created:
-            campus_obj.save()
+        if suap_data['account_type'] == 'student':
+            campus = details['course'].split('-')[-2].strip()
+            campus_obj, created = Campus.objects.get_or_create(campus_name=campus)
+            if created:
+                campus_obj.save()
 
 
-        if profile:
-            profile.suap_avatar_url = details["picture"]
-            profile.suap_nickname = details["nickname"]
-            profile.suap_full_name = details["name"]
-            profile.suap_course = details["course"]
-            profile.campus = campus_obj
-            profile.save()
-            user = profile.user
+            if profile:
+                profile.suap_avatar_url = details["picture"]
+                profile.suap_nickname = details["nickname"]
+                profile.suap_full_name = details["name"]
+                profile.suap_course = details["course"]
+                profile.campus = campus_obj
+                profile.save()
+                user = profile.user
+            else:
+                user = User.objects.create_user(
+                    username=username,
+                    password=password,
+                    first_name=details["name"].split()[0],
+                    last_name=" ".join(details["name"].split()[1:]),
+                )
+                UserProfile.objects.create(
+                    user=user,
+                    suap_username=username,
+                    suap_avatar_url=details["picture"],
+                    suap_nickname=details["nickname"],
+                    suap_full_name=details["name"],
+                    suap_course=details["course"],
+                    campus=campus_obj
+
+                )
         else:
-            user = User.objects.create_user(
-                username=username,
-                password=None,
-                first_name=details["name"].split()[0],
-                last_name=" ".join(details["name"].split()[1:]),
-            )
-            UserProfile.objects.create(
-                user=user,
-                suap_username=username,
-                suap_avatar_url=details["picture"],
-                suap_nickname=details["nickname"],
-                suap_full_name=details["name"],
-                suap_course=details["course"],
-                campus=campus_obj
+            return None
 
-            )
 
         auth_login(request, user)
         return user

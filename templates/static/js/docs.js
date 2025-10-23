@@ -1,6 +1,3 @@
-let docFiles = [];
-
-
 let currentIndex = 0;
 
 if (typeof mermaid !== "undefined") {
@@ -16,15 +13,17 @@ const renderDoc = (markdown) => {
   });
 
   if (typeof mermaid !== "undefined") {
-  const mermaidBlocks = contentDiv.querySelectorAll("code.language-mermaid, pre code.language-mermaid");
-  mermaidBlocks.forEach((block) => {
-    const parent = block.parentElement;
-    const graphDefinition = block.textContent;
-    const container = document.createElement("div");
-    container.classList.add("mermaid");
-    container.textContent = graphDefinition;
-    parent.replaceWith(container);
-  });
+    const mermaidBlocks = contentDiv.querySelectorAll(
+      "code.language-mermaid, pre code.language-mermaid"
+    );
+    mermaidBlocks.forEach((block) => {
+      const parent = block.parentElement;
+      const graphDefinition = block.textContent;
+      const container = document.createElement("div");
+      container.classList.add("mermaid");
+      container.textContent = graphDefinition;
+      parent.replaceWith(container);
+    });
 
     mermaid.run();
   }
@@ -86,6 +85,7 @@ const navigateToDoc = async (index, callback) => {
   const contentDiv = document.getElementById("content");
 
   callback?.();
+
 
   if (window.innerWidth <= 992) {
     document.getElementById("sidebar").classList.remove("show");

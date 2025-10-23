@@ -35,8 +35,32 @@ class UserProfile(BaseModel):
 
     def __str__(self):
         return self.user.username
+
+
+class UserStudentProfile(UserProfile):
+   
+    def __str__(self):
+        return f"Student Profile: {self.user_profile.user.username}"
     
+
+class UserTeacherProfile(UserProfile):
+
+    def __str__(self):
+ 
+        return f"Teacher Profile: {self.user_profile.user.username}"
+
+
+class UserWorkerProfile(UserProfile):
+
+    def __str__(self):
+        return f"Worker Profile: {self.user_profile.user.username}"
     
+
+class PrincipalProfile(UserProfile):
+
+    def __str__(self):
+        return f"Principal Profile: {self.user_profile.user.username}"
+
 class Report(BaseModel):
     class Priority(models.TextChoices):
         LOW = 'LOW', 'Baixa'

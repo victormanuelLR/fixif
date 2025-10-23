@@ -101,20 +101,27 @@ def toggle_report_like(request, report_id):
     
     existing_like = ReportLike.objects.filter(
         user=request.user,
-        report=report,
-        is_active=True
-    ).first()
-    
+        report=report
+        ).first()
+
     if existing_like:
-        existing_like.is_active = False
-        existing_like.save()
-        liked = False
+        
+        if existing_like.is_active:
+            existing_like.is_active = False
+            existing_like.save()
+            liked = False
+        else:
+            existing_like.is_active = True
+            existing_like.save()
+            liked = True
+
     else:
         ReportLike.objects.create(
             user=request.user,
             report=report
         )
         liked = True
+    
     
     like_count = ReportLike.objects.filter(
         report=report,
@@ -190,8 +197,8 @@ def create_comment(request, report_id):
             'comment': {
                 'id': comment.id,
                 'content': comment.content,
-                'user_nickname': 'request.user.suap_nickname',
-                'user_initial': request.user.suap_nickname[0].upper() if request.user.suap_nickname else 'U',
+                'user_nickname': 'Você',
+                'user_initial': 'R',
                 'created_at': 'agora',
                 'like_count': 0,
                 'user_has_liked': False,
