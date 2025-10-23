@@ -20,8 +20,8 @@
     "icon": "bi-box-arrow-in-right"
   },
   {
-    "name": "Configuração",
-    "path": "CONFIGURATION.md",
+    "name": "Views",
+    "path": "VIEWS.md",
     "icon": "bi-gear"
   },
   {
